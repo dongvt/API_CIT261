@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Esting file</title>
+    <!--
+        This file (index.html) is made to completely test the API
+    -->
+    
+</head>
+<body>
+    <button id="insertUser">Register User</button> <br>
+    <button id="logIn">LogIn (Doesn't work wihout user)</button>
+
+    <div id="content"></div>
+
+    <script>
+        //Register New User
+        const insertUserButton = document.getElementById("insertUser");
+        insertUserButton.addEventListener('click',() => {
+            const data = new FormData();
+            data.append('action', "insertUser");
+            data.append('name', "dongvt");
+            data.append('password', "123456a");
+            data.append('rol', 1);
+            run(data);
+        });
+
+        //LogIn
+        const logInButton = document.getElementById("logIn");
+        logInButton.addEventListener('click',() => {
+            const data = new FormData();
+            data.append('action', "logIn");
+            data.append('name', "dongvt");
+            data.append('password', "1256a");
+            run(data);
+        });
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST', 
+                body: data // Body data in formated as HTML Form
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        async function run(myData) {
+            const response = await postData('index.php', myData);
+            document.getElementById("content").innerHTML = JSON.stringify(response); 
+        }
+
+    </script>
+</body>
+</html>
