@@ -1,6 +1,6 @@
 <?php
 
-require('database/connection.php');
+require_once('database/connection.php');
 
 class User
 {
@@ -43,7 +43,7 @@ class User
         $connObj = new Connection();
         $conn = $connObj->con();
         $sql = "INSERT INTO "
-            . "user (`user_name`,`user_password`,`user_rol`) "
+            . "user (`user_name`,`user_password`,`rol_id`) "
             . "VALUES ("
             . "'" . $this->getUserName() . "',"
             . "'" . $this->getPassword() . "',"

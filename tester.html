@@ -11,31 +11,12 @@
 </head>
 <body>
     <button id="insertUser">Register User</button> <br>
-    <button id="logIn">LogIn (Doesn't work wihout user)</button>
+    <button id="logIn">LogIn (Doesn't work wihout user)</button> <br>
+    <button id="getProviderList">Register User</button> 
 
     <div id="content"></div>
 
     <script>
-        //Register New User
-        const insertUserButton = document.getElementById("insertUser");
-        insertUserButton.addEventListener('click',() => {
-            const data = new FormData();
-            data.append('action', "insertUser");
-            data.append('name', "dongvt");
-            data.append('password', "123456a");
-            data.append('rol', 1);
-            run(data);
-        });
-
-        //LogIn
-        const logInButton = document.getElementById("logIn");
-        logInButton.addEventListener('click',() => {
-            const data = new FormData();
-            data.append('action', "logIn");
-            data.append('name', "dongvt");
-            data.append('password', "1256a");
-            run(data);
-        });
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
                 method: 'POST', 
@@ -48,6 +29,42 @@
             const response = await postData('index.php', myData);
             document.getElementById("content").innerHTML = JSON.stringify(response); 
         }
+
+        //Register New User
+        const insertUserButton = document.getElementById("insertUser");
+        insertUserButton.addEventListener('click',() => {
+            const data = new FormData();
+            data.append('action', "insert");
+            data.append('table','user');
+            data.append('name', "dongvt");
+            data.append('password', "123456a");
+            data.append('rol', 1);
+            run(data);
+        });
+
+        //LogIn
+        const logInButton = document.getElementById("logIn");
+        logInButton.addEventListener('click',() => {
+            const data = new FormData();
+            data.append('action', "logIn");
+            data.append('table','user');
+            data.append('name', "dongvt");
+            data.append('password', "123456a");
+            run(data);
+        });
+
+        //LogIn
+        const listProvidersButton = document.getElementById("getProviderList");
+        listProvidersButton.addEventListener('click',() => {
+            const data = new FormData();
+            data.append('action', "getList");
+            data.append('table','provider');
+            run(data);
+        });
+
+
+
+        
 
     </script>
 </body>
