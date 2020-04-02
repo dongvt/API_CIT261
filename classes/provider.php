@@ -7,7 +7,9 @@ class Provider
     private $id;
     private $name;
     private $service;
-    private $schedule;
+    private $address;
+    private $schedule_id;
+    private $user_id;
 
     public function setName($userName)
     {
@@ -19,9 +21,19 @@ class Provider
         $this->service = $service;
     }
 
-    public function setSchedule($schedule)
+    public function setAddress($address)
     {
-        $this->schedule = $schedule;
+        $this->address = $address;
+    }
+
+    public function setScheduleId($schedule)
+    {
+        $this->schedule_id = $schedule;
+    }
+
+    public function setUserId($userId)
+    {
+        $this->user_id = $userId;
     }
 
     public function getName()
@@ -34,9 +46,14 @@ class Provider
         return $this->service;
     }
 
-    public function getSchedule()
+    public function getAddress()
     {
-        return $this->schedule;
+        return $this->address;
+    }
+
+    public function getScheduleId()
+    {
+        return $this->schedule_id;
     }
 
     public function getId()
@@ -44,16 +61,23 @@ class Provider
         return $this->id;
     }
 
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
     public function insertProvider()
     {
-        /*$connObj = new Connection();
+        $connObj = new Connection();
         $conn = $connObj->con();
         $sql = "INSERT INTO "
-            . "user (`user_name`,`user_password`,`user_rol`) "
+            . "providers (`providers_name`,`providers_service`,`providers_address`,`schedule_id`,`user_id`) "
             . "VALUES ("
-            . "'" . $this->getUserName() . "',"
-            . "'" . $this->getPassword() . "',"
-            . $this->getRol()
+            . "'" . $this->getName() . "',"
+            . "'" . $this->getService() . "',"
+            . "'" . $this->getAddress() . "',"
+            . $this->getScheduleId() . ","
+            . $this->getUserId() 
             . ")";
 
         if (mysqli_query($conn, $sql)) {
@@ -69,7 +93,7 @@ class Provider
         }
 
         //Message arrow array with the status and the message
-        return $message;*/
+        return $message;
     }
 
     public function getProvidersList()
@@ -88,7 +112,7 @@ class Provider
                     "service" => $row['providers_service'],
                     "schedule" => $row['schedule_id']
                 );
-                array_push($content,$providerRow);
+                array_push($content, $providerRow);
             }
             $message = array(
                 "status" => true,

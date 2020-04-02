@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,22 @@
     <!--
         This file (index.html) is made to completely test the API
     -->
-    
+
 </head>
+
 <body>
     <button id="insertUser">Register User</button> <br>
-    <button id="logIn">LogIn (Doesn't work wihout user)</button> <br>
-    <button id="getProviderList">Register User</button> 
+    <button id="insertProvider">Register Provider</button> <br>
+    <button id="insertCustomer">Register Customer</button> <br>
+    <button id="logIn">LogIn (Doesn't work without user)</button> <br>
+    <button id="getProviderList">Register User</button>
 
     <div id="content"></div>
 
     <script>
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
-                method: 'POST', 
+                method: 'POST',
                 body: data // Body data in formated as HTML Form
             });
             return await response.json(); // parses JSON response into native JavaScript objects
@@ -27,45 +31,71 @@
 
         async function run(myData) {
             const response = await postData('index.php', myData);
-            document.getElementById("content").innerHTML = JSON.stringify(response); 
+            document.getElementById("content").innerHTML = JSON.stringify(response);
         }
 
         //Register New User
         const insertUserButton = document.getElementById("insertUser");
-        insertUserButton.addEventListener('click',() => {
+        insertUserButton.addEventListener('click', () => {
             const data = new FormData();
             data.append('action', "insert");
-            data.append('table','user');
+            data.append('table', 'user');
             data.append('name', "dongvt");
             data.append('password', "123456a");
             data.append('rol', 1);
             run(data);
         });
 
+        //Create Provider
+        const createProvider = document.getElementById("insertProvider");
+        createProvider.addEventListener('click', () => {
+            const data = new FormData();
+            data.append('action', "insert");
+            data.append('table', 'user');
+            data.append('name', "ProviderTest");
+            data.append('password', "123456a");
+            data.append('rol', 2);
+            data.append('schedule', 1);
+            data.append('realName', "This is a provider test");
+            data.append('service', "This is an example of provider service");
+            data.append('address', "450e 710w Rexburg,ID 83440");
+            run(data);
+        });
+
+        //Create Customer
+        const createCustomer = document.getElementById("insertCustomer");
+        createCustomer.addEventListener('click', () => {
+            const data = new FormData();
+            data.append('action', "insert");
+            data.append('table', 'user');
+            data.append('name', "CustomerTest");
+            data.append('password', "123456a");
+            data.append('rol', 1);
+            data.append('realName', "This is a provider test");
+            data.append('address', "450e 710w Rexburg,ID 83440");
+            run(data);
+        });
+
         //LogIn
         const logInButton = document.getElementById("logIn");
-        logInButton.addEventListener('click',() => {
+        logInButton.addEventListener('click', () => {
             const data = new FormData();
             data.append('action', "logIn");
-            data.append('table','user');
+            data.append('table', 'user');
             data.append('name', "dongvt");
             data.append('password', "123456a");
             run(data);
         });
 
-        //LogIn
+        //ListProvider
         const listProvidersButton = document.getElementById("getProviderList");
-        listProvidersButton.addEventListener('click',() => {
+        listProvidersButton.addEventListener('click', () => {
             const data = new FormData();
             data.append('action', "getList");
-            data.append('table','provider');
+            data.append('table', 'provider');
             run(data);
         });
-
-
-
-        
-
     </script>
 </body>
+
 </html>
