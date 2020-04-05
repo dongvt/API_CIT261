@@ -24,8 +24,7 @@ if ($table == "user") {
             $customer->setAddress($_POST['address']);
             $customer->setUserId($userObj->getId());
             $jsonResponse = $customer->insertCustomer();
-        } 
-        else if ($userObj->getRol() == 2) { //Provider
+        } else if ($userObj->getRol() == 2) { //Provider
             $provider = new Provider();
             $provider->setName($_POST['realName']);
             $provider->setService($_POST['service']);
@@ -36,11 +35,27 @@ if ($table == "user") {
         }
 
         //$jsonResponse = 
-    } else if ($action == "logIn") { //LogIn (probably interact with more tables)
+    } else if ($action == "logIn") {
         $userObj->setUserName($_POST['name']);
         $userObj->setPassword($_POST['password']);
 
-        $jsonResponse = $userObj->logIn();
+        $logInFlag = $userObj->logIn();        
+
+        if ($logInFlag['status']) {
+            if ($logInFlag['role'] == 2) { //Provider
+                $provider = new Provider();
+
+                $jsonResponse = $provider->getProviderByUserId($userObj->getId());
+                
+            } else if ($logInFlag['role'] == 1) { //Customer
+                $customer = new Customer();
+
+                $jsonResponse = $customer->getCustomerByUserId($userObj->getId());
+            }
+        }
+
+        //We also need to return the role
+        $jsonResponse['role'] = $logInFlag['role'];
     }
 }
 /**

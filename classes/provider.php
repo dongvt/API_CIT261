@@ -96,6 +96,36 @@ class Provider
         return $message;
     }
 
+    public function getProviderByUserId($userId) {
+        $connObj = new Connection();
+        $conn = $connObj->con();
+        $sql = "SELECT * FROM providers WHERE providers.user_id = " . $userId; 
+
+        $content = null;
+
+        if ($result = mysqli_query($conn, $sql)) {
+            
+            while ($row = $result->fetch_assoc()) {
+                $content = array(
+                    "status" => true,
+                    "id" => $row['providers_id'],
+                    "name" => $row['providers_name'],
+                    "service" => $row['providers_service'],
+                    "address" => $row['providers_address'],
+                    "schedule" => $row['schedule_id'],
+                    "userId" => $row['user_id'],
+                    
+                );
+            }
+        } else {
+            $content = array(
+                "status" => false,
+                "message" => "Error: " . $sql . "" . mysqli_error($conn)
+            );
+        }
+        return $content;
+    }
+
     public function getProvidersList()
     {
         $connObj = new Connection();

@@ -72,4 +72,31 @@ class Customer
         return $message;
     }
 
+    public function getCustomerByUserId($userId) {
+        $connObj = new Connection();
+        $conn = $connObj->con();
+        $sql = "SELECT * FROM customer WHERE customer.user_id = " . $userId; 
+
+        $content = null;
+
+        if ($result = mysqli_query($conn, $sql)) {
+            
+            while ($row = $result->fetch_assoc()) {
+                $content = array(
+                    "status" => true,
+                    "id" => $row['customer_id'],
+                    "name" => $row['customer_name'],
+                    "address" => $row['customer_address'],
+                    "userId" => $row['user_id']
+                );
+            }
+        } else {
+            $content = array(
+                "status" => false,
+                "message" => "Error: " . $sql . "" . mysqli_error($conn)
+            );
+        }
+        return $content;
+    }
+
 }

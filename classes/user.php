@@ -87,13 +87,14 @@ class User
 
         if ($result = mysqli_query($conn, $sql)) {
             if (mysqli_num_rows($result) > 0) {
-                //Aisgn id to the object
+                //Assign id to the object
                 if ($row = $result->fetch_assoc()) {
                     $this->id = $row['user_id'];
+                    $this->rol = $row['role_id'];
                 }
                 $message = array(
                     "status" => true,
-                    "message" => ""
+                    "role" => $this->rol
                 );
             } else {
                 $message = array(
